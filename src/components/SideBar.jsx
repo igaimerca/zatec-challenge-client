@@ -3,10 +3,10 @@ import { logOut } from "../utils/utils.js"
 import { useNavigate } from 'react-router-dom'
 
 function SideBar() {
+  const navigate = useNavigate();
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
-  const navigate = useNavigate()
   useEffect(() => {
-    if (!user) {
+    if (!localStorage.getItem("profile")) {
       navigate("/login")
     }
   }, [])
@@ -54,7 +54,7 @@ function SideBar() {
           <a href="#" className="absolute flex items-center p-2 text-gray-900 rounded-lg bottom-3 dark:text-white">
             <img loading='lazy' className='w-16 h-16 rounded-full' src={user?.picture} alt="" />
             <div className="flex flex-col items-baseline w-full">
-              <span className="flex-1 ml-3 text-2xl font-bold whitespace-nowrap">{user.name?.split(" ")[0]}</span>
+              <span className="flex-1 ml-3 text-2xl font-bold whitespace-nowrap">{user?.name && user.name?.split(" ")[0]}</span>
               <button onClick={logOut} className='italic font-bold text-red-400'>Log Out</button>
             </div>
           </a>
