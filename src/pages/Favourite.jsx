@@ -20,17 +20,25 @@ function Favourite() {
       let userRes = await axios.get(`${BACKEND_API_URL}/user?email=${user?.email}`);
       if (name === 'albums') {
         let albumUrls = userRes.data.data.favourite_albums?.split(",,,");
-        if (albumUrls == null || albumUrls?.includes("")) {
+        if (albumUrls == null || (albumUrls?.includes("") && albumUrls?.length === 1)) {
           setAlbums([''])
         } else {
-          setAlbums(albumUrls);
+          if (albumUrls[0] == '') {
+            setAlbums(albumUrls.slice(1));
+          } else {
+            setAlbums(albumUrls);
+          }
         }
       } else if (name === "artists") {
         let artistsUrls = userRes.data.data.favourite_artists?.split(",,,");
-        if (artistsUrls == null || artistsUrls?.includes("")) {
+        if (artistsUrls == null || (artistsUrls?.includes("") && artistsUrls?.length === 1)) {
           setArtists([''])
         } else {
-          setArtists(artistsUrls);
+          if (artistsUrls[0] === '') {
+            setArtists(artistsUrls.slice(1));
+          } else {
+            setArtists(artistsUrls);
+          }
         }
       }
     } catch (error) {
@@ -56,13 +64,13 @@ function Favourite() {
             <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
               {!loading ? (
                 name === 'albums' ? (
-                  !(albums?.includes('')) ? albums?.map((url, idx) => (
+                  !(albums?.includes("")) ? albums?.map((url, idx) => (
                     <FavouriteAlbumCard handleFavouritesChange={getUser} key={idx} albumURL={url} action="remove" email={user?.email} />
                   )) : (
                     <p className="text-lg font-medium text-red-400 truncate dark:text-red-400">No favourites albums!</p>
                   )
                 ) : name === 'artists' && (
-                  !(artists.includes('')) ? artists?.map((url, idx) => (
+                  !(artists?.includes("")) ? artists?.map((url, idx) => (
                     <FavouriteArtistCard handleFavouritesChange={getUser} key={idx} artistURL={url} action="remove" email={user?.email} />
                   )) : (
                     <p className="text-lg font-medium text-red-400 truncate dark:text-red-400">No favourites artists!</p>
