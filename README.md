@@ -1,6 +1,6 @@
 # Zatec challenge
 
-It uses React, Vite, TailwindCSS and Google Api.
+It uses React, Vite, TailwindCSS and Google Auth.
 
 1. Clone the repo `git clone https://github.com/igaimerca/zatec-challenge-client`.
 2. Change google client ID key `./src/main.jsx` line `9`
